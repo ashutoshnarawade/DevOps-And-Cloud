@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Source code checked out from GitHub by Jenkins.'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                bat 'python --version'
+                bat 'python -m venv .venv'
+                bat '.venv\\Scripts\\python.exe -m pip install --upgrade pip'
+                bat '.venv\\Scripts\\python.exe -m pip install -r requirements.txt'
+            }
+        }
+
+        stage('Code Quality') {
+            steps {
+                bat '.venv\\Scripts\\python.exe -m flake8 app tests run.py'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                bat '.venv\\Scripts\\python.exe -m pytest -v'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t student-academic-platform:v1.0.0 .'
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                bat 'kubectl apply -f k8s\\deployment.yaml'
+                bat 'kubectl apply -f k8s\\service.yaml'
+                bat 'kubectl rollout status deployment/student-academic-platform --timeout=120s'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'CI/CD pipeline completed successfully.'
+        }
+        failure {
+            echo 'CI/CD pipeline failed. Check the stage logs.'
+        }
+    }
+}
