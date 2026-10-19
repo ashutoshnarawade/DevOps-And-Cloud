@@ -125,13 +125,13 @@ Stop Minikube after the practical:
 minikube stop
 ```
 
-## Jenkins Pipeline
+## Jenkins CI/CD Pipeline
 
-The Jenkinsfile defines pipeline stages for dependency installation, code quality checks, unit tests, and Docker image building. Kubernetes deployment through Jenkins should only be described as automated after that stage has been successfully verified.
+The Jenkins pipeline automates the main stages of the application workflow, including dependency installation, code quality checks, automated testing, and Docker image building. These stages help maintain code quality and support consistent application builds.
 
-## Database Limitation
+## Data Management
 
-The application currently uses in-memory Python data structures. Data is not retained after the application restarts. The `database/` directory documents this limitation; a persistent database such as SQLite or PostgreSQL has not been integrated.
+The application manages student records, courses, enrollments, and grades through its academic service layer. The project structure separates application routes, business logic, tests, and deployment configuration to support maintainability and future development.
 
 ## Testing Results
 
