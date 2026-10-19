@@ -140,12 +140,6 @@ The application manages student records, courses, enrollments, and grades throug
 - Kubernetes deployment was verified with three running replicas.
 - Pod replacement was successfully observed after deleting a pod.
 
-## Future Improvements
-
-- Integrate a persistent database.
-- Add authentication and authorization.
-- Expand automated test coverage.
-- Improve deployment automation and monitoring.
 
 ## Repository
 
